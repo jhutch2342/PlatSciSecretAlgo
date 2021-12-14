@@ -48,11 +48,62 @@ async function readFile(filePath) {
     return data;
 }
 
+async function topSecretAlgorithm(dataObject) {
+    //Parameterize incoming values
+    let { driverNames, streetNames } = dataObject;
+
+    let shipments = [];
+
+    //Iterate over shipment destination streets to build shipment info
+    streetNames.map((streetName) => {
+        let shipment = {};
+        shipment.streetName = streetName;
+        shipment.shipmentDrivers = [];
+
+        driverNames.map((driver) => {
+            let shipmentDriver = {};
+            shipmentDriver.driverName = driver;
+            /*
+            Determin driver route score
+
+            Driver score is based on street name length and driver name length
+            If street name is even multiply 1.5 times the number of vowels in driver's name
+            If street is odd multiply 1 times the number of consonatns in the driver's name
+            If street name length and driver name length match increase score by 50%
+            */
+            shipmentDriver.score =
+                shipment.streetName.match(/[a-z]/gi).length % 2 == 0
+                    ? 1.5 * driver.match(/[aeiou]/gi).length
+                    : 1 * driver.match(/[bcdfghjklmnpqrstvwxyz]/gi).length;
+            //Check for name length match. 50% increase on driver score if match
+            if (
+                driver.match(/[a-z]/gi).length === streetName.match(/[a-z]/gi)
+            ) {
+                shipmentDriver.score *= 50;
+            }
+            //Add shipment driver to the shipment
+            shipment.shipmentDrivers.push(shipmentDriver);
+        });
+        //Add the shipment to the shipments list
+        shipments.push(shipment);
+    });
+    console.log("Looking at shipments");
+    let shipmentObject = shipments;
+    console.log(JSON.stringify(shipmentObject));
+    return shipmentObject;
+}
+
+let determineOptimalRoutes = (shipmentObject) => {
+    let optimalRoutes = [];
+    return optimalRoutes;
+};
+
 //Main program start
 async function runProgram() {
     // displayUserPrompt();
     let getFileData = await loadFileData();
-    console.log(getFileData());
+    let shipmentInformation = topSecretAlgorithm(getFileData());
+    let optimalRoutes = determineOptimalRoutes();
 }
 
 runProgram();
