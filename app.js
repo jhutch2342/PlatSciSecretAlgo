@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require("fs").promises;
 
 function displayUserPrompt() {
     console.log("Welcome to the driver assignment portal");
@@ -9,50 +9,50 @@ function displayUserPrompt() {
         'The first file is a file named "Driver Name File"  (case sensitive) that will need to contain the drivers names'
     );
     console.log(
-        'The second file is a file named "Desination Street File"  (case sensitive) that will need to contain the street address of the shipment destinations'
+        'The second file is a file named "Desination Street File"  (case sensitive) that will need to contain the street address of the shipment destinations\n'
     );
 }
 
-async function getFileData() {
+//Load and save data from file
+let loadFileData = async () => {
     //Street and Driver data from system files
-    let driverNames = [];
-    let streetNames = [];
-
-    //Load in Driver data
-    try {
-        fs.readFile("./Driver Data File", "utf8", (err, data) => {
-            if (err) {
-                console.log("Error reading Driver File. Exiting program");
-                process.exit();
-            }
-            const drivers = data.split(/\r?\n/);
-            console.log("\nLoading Drivers");
-            drivers.forEach((driverName) => {
-                //Filter out blank lines
-                if (driverName.length > 0) {
-                    console.log(driverName + " loaded");
-                    driverNames.push(driverName);
-                }
-            });
-            //Exit if no Drivers in files
-            if (driverNames.length === 0) {
-                console.log(
-                    "Error. No Drivers in Driver Data File. Please add Driver names to the file. Exiting program"
-                );
-                process.exit();
-            }
-            console.log("All drivers loaded\n");
-        });
-    } catch (err) {
-        console.log("Error reading Driver File. Exiting program");
-        process.exit();
-    }
-
+    let driverNames = await readFile("./Driver Data File");
+    let streetNames = await readFile("./Destination Street File");
     return () => {
-        return [driverNames, streetNames];
+        let dataObject = {
+            driverNames: driverNames,
+            streetNames: streetNames,
+        };
+        return dataObject;
     };
+};
+
+//Loads and returns data from file
+async function readFile(filePath) {
+    let data;
+    try {
+        console.log("Loading data from: " + filePath.replace("./", ""));
+        data = await fs.readFile(filePath);
+        //Grab driver by new line
+        data = data.toString().split(/\r?\n/);
+    } catch (err) {
+        console.error(
+            `Got an error trying to read the file. Please verify file data and rerun program. Exiting program`
+        );
+    }
+    //Filter out blank lines
+    data = data.filter((dataLine) => {
+        return dataLine.length > 0;
+    });
+    console.log("Data loaded\n");
+    return data;
 }
 
 //Main program start
-displayUserPrompt();
-getFileData();
+async function runProgram() {
+    // displayUserPrompt();
+    let getFileData = await loadFileData();
+    console.log(getFileData());
+}
+
+runProgram();
