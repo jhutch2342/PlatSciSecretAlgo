@@ -6,16 +6,16 @@ function displayUserPrompt() {
         "To use this platform you will need to have two files both of which will need to be in the same folder as this application"
     );
     console.log(
-        'The first file is a file named "Driver Name File"  (case sensitive) that will need to contain the drivers names'
+        'The first file is a file named "Driver Name File"  (File name is case sensitive) that will need to contain the drivers names'
     );
     console.log(
-        'The second file is a file named "Desination Street File"  (case sensitive) that will need to contain the street address of the shipment destinations\n'
+        'The second file is a file named "Desination Street File"  (File name is case sensitive) that will need to contain the street address of the shipment destinations\n'
     );
 }
 
 //Load and save data from file
 let loadFileData = async () => {
-    //Street and Driver data from system files
+    //Load Street and Driver data from system files
     let driverNames = await readFile("./Driver Data File");
     let streetNames = await readFile("./Destination Street File");
     return () => {
@@ -27,7 +27,7 @@ let loadFileData = async () => {
     };
 };
 
-//Loads and returns data from file
+//Helper function for loading and parameterizing data from file
 async function readFile(filePath) {
     let data;
     try {
@@ -59,12 +59,14 @@ async function topSecretAlgorithm(dataObject) {
         let shipment = {};
         shipment.streetName = streetName;
         shipment.shipmentDrivers = [];
+        let highestShippingScore = 0;
+        let highestShippingScoreDriverName = "";
 
         driverNames.map((driver) => {
             let shipmentDriver = {};
             shipmentDriver.driverName = driver;
             /*
-            Determin driver route score
+            Determine driver route score
 
             Driver score is based on street name length and driver name length
             If street name is even multiply 1.5 times the number of vowels in driver's name
@@ -82,9 +84,15 @@ async function topSecretAlgorithm(dataObject) {
             ) {
                 shipmentDriver.score *= 1.5;
             }
+            //Check for highest shipment driver score
+            if (shipmentDriver.score > highestShippingScore) {
+                highestShippingScore = shipmentDriver.score;
+                highestShippingScoreDriverName = shipmentDriver.driverName;
+            }
             //Add shipment driver to the shipment
             shipment.shipmentDrivers.push(shipmentDriver);
         });
+        console.log("Highest shipping score is " + highestShippingScore);
         //Add the shipment to the shipments list
         shipments.push(shipment);
     });
@@ -94,9 +102,13 @@ async function topSecretAlgorithm(dataObject) {
     return shipmentObject;
 }
 
+/*
+Optimizing using a greedy algorithm
+Highest driver score on the route gets priority
+*/
 let determineOptimalRoutes = (shipments) => {
     let optimalRoute = [];
-
+    // shipments.map((shipment) => {});
     return optimalRoute;
 };
 
