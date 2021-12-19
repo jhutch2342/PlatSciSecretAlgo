@@ -69,6 +69,11 @@ Example contents of "Destination Street File"
 node app.js
 
 <pre>
+Welcome to the driver assignment portal
+To use this platform you will need to have two files both of which will need to be in the same folder as this application
+The first file is a file named "Driver Data File"  (File name is case sensitive) that will need to contain the drivers names
+The second file is a file named "Desination Street File"  (File name is case sensitive) that will need to contain the street address of the shipment destinations
+
 | Route                  | Driver           | Score |
 -----------------------------------------------------
 | 123 Fake Street        | Nancy carmichael |   7.5 |
