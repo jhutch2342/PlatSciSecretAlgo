@@ -1,8 +1,6 @@
 const fs = require("fs").promises;
 const stringTable = require("string-table");
 
-let showDebug = false;
-
 let displayUserPrompt = () => {
     console.log("Welcome to the driver assignment portal");
     console.log(
@@ -54,7 +52,6 @@ let loadFileData = async () => {
 async function readFile(filePath) {
     let data;
     try {
-        // console.log("Loading data from: " + filePath.replace("./", ""));
         data = await fs.readFile(filePath);
         //Grab driver by new line
         data = data.toString().split(/\r?\n/);
@@ -67,7 +64,6 @@ async function readFile(filePath) {
     data = data.filter((dataLine) => {
         return dataLine.length > 0;
     });
-    // console.log("Data loaded\n");
     return data;
 }
 
@@ -121,8 +117,6 @@ async function topSecretAlgorithm(dataObject) {
     let shipmentsObject = {};
     shipmentsObject.shipments = shipments;
     shipmentsObject.driverRouteMatrix = driverRouteMatrix;
-    console.log("Returning shipments");
-    console.log(JSON.stringify(shipmentsObject));
     return shipmentsObject;
 }
 
@@ -145,10 +139,6 @@ let determineOptimalRoutes = (shipmentsObject) => {
         shipmentRoutes.push(routes.streetName);
     });
 
-    console.log("Drivers");
-    console.log(drivers);
-    console.log(shipmentRoutes);
-
     // Iterate over all routes until there is only one route left
     while (driverRouteMatrix.length > 0) {
         //Compute and store next optimal route
@@ -158,15 +148,9 @@ let determineOptimalRoutes = (shipmentsObject) => {
 
         //Get the driver name
         nextRoute.Driver = drivers[nextRoute.driverIndex];
-        console.log("1.0------------------------------------");
-        console.log("Looking at next route data " + JSON.stringify(nextRoute));
         //Remove route from driver route matrix
         driverRouteMatrix.splice(nextRoute.routeIndex, 1);
-        console.log("1.1------------------------------------");
-        console.log(driverRouteMatrix);
         //Remove driver from other routes
-        console.log("1.2------------------------------------");
-        console.log(nextRoute.driverIndex);
         for (
             var routeIndex = 0;
             routeIndex < driverRouteMatrix.length;
@@ -174,8 +158,6 @@ let determineOptimalRoutes = (shipmentsObject) => {
         ) {
             driverRouteMatrix[routeIndex].splice(nextRoute.driverIndex, 1);
         }
-        console.log("1.3------------------------------------");
-        console.log(driverRouteMatrix);
 
         //Remove route from shipment routes
         shipmentRoutes.splice(nextRoute.routeIndex, 1);
@@ -199,23 +181,14 @@ let determineOptimalRoutes = (shipmentsObject) => {
     optimalRoutesObject.optimalRoutes = optimalRoutes;
     optimalRoutesObject.routesWithNoDriver = routesWithNoDriver;
     optimalRoutesObject.routesScore = optimalRouteScore;
-    console.log("Looking at optimal routes");
-    console.log(optimalRoutesObject);
     return optimalRoutesObject;
 };
 
 let findNextRoute = (driverMatrix) => {
     let deltas = [];
-    console.log("0----------------start--------------------");
-    console.log(
-        "Entering findNextRoute " + driverMatrix.length + " routes left"
-    );
-    console.log(driverMatrix);
     let nextRoute = {};
     //Only 1 route left or 1 driver left. No need to compare routes for efficiency
     if (driverMatrix.length === 1 || driverMatrix[0].length === 1) {
-        console.log("Last route");
-        console.log(driverMatrix);
         //If only one route left grab highest route score
         if (driverMatrix.length === 1) {
             //Only one route left so route index will be 0
@@ -232,7 +205,7 @@ let findNextRoute = (driverMatrix) => {
             let maxRouteIndex = 0;
             let maxRouteScore = 0;
             driverMatrix.map((route, routeIndex) => {
-                //Look at the last driver score of each route. If greater than current max save score
+                //Look at the driver score of each route (only 1 driver per route here). If greater than current max save score
                 if (route[0] > maxRouteScore) {
                     maxRouteIndex = routeIndex;
                     maxRouteScore = route[0];
@@ -241,14 +214,12 @@ let findNextRoute = (driverMatrix) => {
             nextRoute.routeIndex = maxRouteIndex;
             nextRoute.Score = maxRouteScore;
         }
-        console.log("Last route " + JSON.stringify(nextRoute));
         return nextRoute;
     }
     //Determine route with highest potential loss
     driverMatrix.map((route) => {
         //Create a deep clone of the route array
         let tmpRoute = [].concat(route);
-        console.log("Looking at tmp route " + tmpRoute);
         //Get route max
         let max = Math.max.apply(null, tmpRoute);
         //Remove the value from the array
@@ -257,33 +228,19 @@ let findNextRoute = (driverMatrix) => {
         //Compute loss delta
         let delta = max - secondHighest;
         //Store route deltas for comparison
-        console.log(
-            "Pusing a delta " + delta + ":" + max + ":" + secondHighest
-        );
         deltas.push(delta);
     });
-    console.log("1------------------------------------");
-    console.log("Looking at deltas");
-    console.log(deltas);
     //Route with the highest potential loss
     let highestDelta = Math.max.apply(null, deltas);
     //Grab route index of route with highest potential loss
     let nextRouteIndex = deltas.indexOf(highestDelta);
-    console.log("Looking at route index " + nextRouteIndex);
-    console.log("2------------------------------------");
     //Grab max driver score for that route
     let maxDriverScore = Math.max.apply(null, driverMatrix[nextRouteIndex]);
-    console.log("Max driver score " + maxDriverScore);
     //Grab the max driver score index
-    console.log("Looking at driver matrix");
-    console.log(driverMatrix[nextRouteIndex]);
     let nextDriverIndex = driverMatrix[nextRouteIndex].indexOf(maxDriverScore);
-    console.log("Driver index " + nextDriverIndex);
     nextRoute.routeIndex = nextRouteIndex;
     nextRoute.driverIndex = nextDriverIndex;
     nextRoute.Score = maxDriverScore;
-    console.log("Looking at next route " + JSON.stringify(nextRoute));
-    console.log("----------------end--------------------");
     return nextRoute;
 };
 
