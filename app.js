@@ -212,18 +212,43 @@ let findNextRoute = (driverMatrix) => {
     );
     console.log(driverMatrix);
     let nextRoute = {};
-    //Only 1 route left. No need to compare for efficiency
-    if (driverMatrix.length === 1) {
-        nextRoute.routeIndex = 0;
-        nextRoute.driverIndex = 0;
-        nextRoute.Score = driverMatrix[0][0];
-        console.log("------------------------------------");
+    //Only 1 route left or 1 driver left. No need to compare routes for efficiency
+    if (driverMatrix.length === 1 || driverMatrix[0].length === 1) {
+        console.log("Last route");
+        console.log(driverMatrix);
+        //If only one route left grab highest route score
+        if (driverMatrix.length === 1) {
+            //Only one route left so route index will be 0
+            nextRoute.routeIndex = 0;
+            //Get max score out of route
+            let maxScore = Math.max.apply(null, driverMatrix[0]);
+            nextRoute.driverIndex = driverMatrix[0].indexOf(maxScore);
+            nextRoute.Score = driverMatrix[0][nextRoute.driverIndex];
+        }
+        //If only one driver left grab highest score from routes
+        if (driverMatrix[0].length === 1) {
+            //Only one driver left so driver index will be 0
+            nextRoute.driverIndex = 0;
+            let maxRouteIndex = 0;
+            let maxRouteScore = 0;
+            driverMatrix.map((route, routeIndex) => {
+                //Look at the last driver score of each route. If greater than current max save score
+                if (route[0] > maxRouteScore) {
+                    maxRouteIndex = routeIndex;
+                    maxRouteScore = route[0];
+                }
+            });
+            nextRoute.routeIndex = maxRouteIndex;
+            nextRoute.Score = maxRouteScore;
+        }
+        console.log("Last route " + JSON.stringify(nextRoute));
         return nextRoute;
     }
     //Determine route with highest potential loss
     driverMatrix.map((route) => {
         //Create a deep clone of the route array
         let tmpRoute = [].concat(route);
+        console.log("Looking at tmp route " + tmpRoute);
         //Get route max
         let max = Math.max.apply(null, tmpRoute);
         //Remove the value from the array
@@ -232,6 +257,9 @@ let findNextRoute = (driverMatrix) => {
         //Compute loss delta
         let delta = max - secondHighest;
         //Store route deltas for comparison
+        console.log(
+            "Pusing a delta " + delta + ":" + max + ":" + secondHighest
+        );
         deltas.push(delta);
     });
     console.log("1------------------------------------");

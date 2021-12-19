@@ -81,7 +81,7 @@
                         <mxPoint x="360" y="1115" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="31" value="Present route to&lt;br&gt;user" style="html=1;dashed=0;whitespace=wrap;" parent="1" vertex="1">
+                <mxCell id="31" value="Present routes to&lt;br&gt;user" style="html=1;dashed=0;whitespace=wrap;" parent="1" vertex="1">
                     <mxGeometry x="310" y="1025" width="100" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="34" value="End" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_2;whiteSpace=wrap;" parent="1" vertex="1">
@@ -96,7 +96,7 @@
                 <mxCell id="37" value="Logging was ommited from this build as this is a prototype project and not intended for production" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;" parent="1" vertex="1">
                     <mxGeometry x="540" y="10" width="150" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="43" value="Since drivers are added to shipments in the same order the driver name index for a driver is consistent across shipments" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;" vertex="1" parent="1">
+                <mxCell id="43" value="Since drivers are added to shipments in the same order the driver name index for a driver is consistent across shipments" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;" parent="1" vertex="1">
                     <mxGeometry x="480" y="893.75" width="200" height="77.5" as="geometry"/>
                 </mxCell>
             </root>
