@@ -461,45 +461,58 @@ Looking at next route data {"routeIndex":0,"driverIndex":0,"streetName":"8181 No
 1.3------------------------------------
 []
 Looking at optimal routes
-[
-  {
-    maxDriverScore: 7.5,
-    streetName: '123 Fake Street',
-    driverName: 'Nancy carmichael'
-  },
-  {
-    maxDriverScore: 10.5,
-    streetName: '6492 West place',
-    driverName: 'Frank john'
-  },
-  {
-    maxDriverScore: 7.5,
-    streetName: '1887 Park ave',
-    driverName: 'Peggy lu'
-  },
-  {
-    maxDriverScore: 5,
-    streetName: '8422 Willingtom way',
-    driverName: 'Sue Myers'
-  },
-  {
-    maxDriverScore: 4,
-    streetName: '9043 Mark ave',
-    driverName: 'Bob man'
-  },
-  {
-    maxDriverScore: 4.5,
-    streetName: '1452 Johnson boulevard',
-    driverName: 'Joe bob'
-  },
-  {
-    maxDriverScore: 4.5,
-    streetName: '1445 Haight Street',
-    driverName: 'Tom sue'
-  },
-  {
-    maxDriverScore: 4.5,
-    streetName: '1947 Miramar boulevard',
-    driverName: 'Ann lee'
-  }
-]
+{
+  optimalRoutes: [
+    {
+      maxDriverScore: 7.5,
+      streetName: '123 Fake Street',
+      driverName: 'Nancy carmichael'
+    },
+    {
+      maxDriverScore: 10.5,
+      streetName: '6492 West place',
+      driverName: 'Frank john'
+    },
+    {
+      maxDriverScore: 7.5,
+      streetName: '1887 Park ave',
+      driverName: 'Peggy lu'
+    },
+    {
+      maxDriverScore: 5,
+      streetName: '8422 Willingtom way',
+      driverName: 'Sue Myers'
+    },
+    {
+      maxDriverScore: 4,
+      streetName: '9043 Mark ave',
+      driverName: 'Bob man'
+    },
+    {
+      maxDriverScore: 4.5,
+      streetName: '1452 Johnson boulevard',
+      driverName: 'Joe bob'
+    },
+    {
+      maxDriverScore: 4.5,
+      streetName: '1445 Haight Street',
+      driverName: 'Tom sue'
+    },
+    {
+      maxDriverScore: 4.5,
+      streetName: '1947 Miramar boulevard',
+      driverName: 'Ann lee'
+    }
+  ],
+  routesWithNoDriver: [
+    {
+      maxDriverScore: undefined,
+      streetName: '8181 Not going to work street',
+      driverName: undefined
+    }
+  ],
+  routesScore: 48
+}
+Optimal routes computed
+------------------------------------------
+Route Destination		Driver Name		Driver Score

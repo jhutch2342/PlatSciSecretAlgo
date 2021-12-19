@@ -1,6 +1,9 @@
 const fs = require("fs").promises;
+const stringTable = require("string-table");
 
-function displayUserPrompt() {
+let showDebug = false;
+
+let displayUserPrompt = () => {
     console.log("Welcome to the driver assignment portal");
     console.log(
         "To use this platform you will need to have two files both of which will need to be in the same folder as this application"
@@ -11,7 +14,19 @@ function displayUserPrompt() {
     console.log(
         'The second file is a file named "Desination Street File"  (File name is case sensitive) that will need to contain the street address of the shipment destinations\n'
     );
-}
+};
+
+let displayOptimalRoutes = (optimalRoutesObject) => {
+    //Print out optimal routes
+    console.log(
+        stringTable.create(optimalRoutesObject.optimalRoutes, {
+            headers: ["Route", "Driver", "Score"],
+        })
+    );
+    //Warn user about routes with no driver present
+    if (optimalRoutesObject.routesWithNoDriver.length > 0) {
+    }
+};
 
 //Load and save data from file
 let loadFileData = async () => {
@@ -70,7 +85,7 @@ async function topSecretAlgorithm(dataObject) {
 
             Driver score is based on street name length and driver name length
             If street name is even multiply 1.5 times the number of vowels in driver's name
-            If street is odd multiply 1 times the number of consonatns in the driver's name
+            If street is odd multiply 1 times the number of consonants in the driver's name
             If street name length and driver name length match increase score by 50%
             */
             shipmentDriver.score =
@@ -107,8 +122,10 @@ let determineOptimalRoutes = (shipmentsObject) => {
     let optimalRoutes = [];
     let drivers = [];
     let shipmentRoutes = [];
+    let routesWithNoDriver = [];
     //Make a deep copy of the driver matrix
     let driverRouteMatrix = [].concat(shipmentsObject.driverRouteMatrix);
+    let optimalRouteScore = 0;
 
     //Load drivers into drivers array
     shipmentsObject.shipments[0].shipmentDrivers.map((driver) => {
@@ -128,11 +145,11 @@ let determineOptimalRoutes = (shipmentsObject) => {
     while (driverRouteMatrix.length > 0) {
         //Compute and store next optimal route
         let nextRoute = findNextRoute(driverRouteMatrix);
-        //Get the route's street
-        nextRoute.streetName = shipmentRoutes[nextRoute.routeIndex];
+        //Get the route street
+        nextRoute.Route = shipmentRoutes[nextRoute.routeIndex];
 
         //Get the driver name
-        nextRoute.driverName = drivers[nextRoute.driverIndex];
+        nextRoute.Driver = drivers[nextRoute.driverIndex];
         console.log("1.0------------------------------------");
         console.log("Looking at next route data " + JSON.stringify(nextRoute));
         //Remove route from driver route matrix
@@ -160,15 +177,23 @@ let determineOptimalRoutes = (shipmentsObject) => {
         //Remove the route and driver index. They are meaningless once the array updates
         delete nextRoute["driverIndex"];
         delete nextRoute["routeIndex"];
-        //Handle the edge case of more routes than drivers
-        if (nextRoute.driverName !== undefined) {
+        //Separate routes that have drivers from routes that do not
+        if (nextRoute.Driver === undefined) {
+            routesWithNoDriver.push(nextRoute);
+        } else {
             //Add route to optimal routes
             optimalRoutes.push(nextRoute);
+            //Add route score to optimal route score
+            optimalRouteScore += nextRoute.Score;
         }
     }
+    let optimalRoutesObject = {};
+    optimalRoutesObject.optimalRoutes = optimalRoutes;
+    optimalRoutesObject.routesWithNoDriver = routesWithNoDriver;
+    optimalRoutesObject.routesScore = optimalRouteScore;
     console.log("Looking at optimal routes");
-    console.log(optimalRoutes);
-    return optimalRoutes;
+    console.log(optimalRoutesObject);
+    return optimalRoutesObject;
 };
 
 let findNextRoute = (driverMatrix) => {
@@ -183,7 +208,7 @@ let findNextRoute = (driverMatrix) => {
     if (driverMatrix.length === 1) {
         nextRoute.routeIndex = 0;
         nextRoute.driverIndex = 0;
-        nextRoute.maxDriverScore = driverMatrix[0][0];
+        nextRoute.Score = driverMatrix[0][0];
         console.log("------------------------------------");
         return nextRoute;
     }
@@ -220,7 +245,7 @@ let findNextRoute = (driverMatrix) => {
     console.log("Driver index " + nextDriverIndex);
     nextRoute.routeIndex = nextRouteIndex;
     nextRoute.driverIndex = nextDriverIndex;
-    nextRoute.maxDriverScore = maxDriverScore;
+    nextRoute.Score = maxDriverScore;
     console.log("Looking at next route " + JSON.stringify(nextRoute));
     console.log("----------------end--------------------");
     return nextRoute;
@@ -231,7 +256,8 @@ async function runProgram() {
     // displayUserPrompt();
     let getFileData = await loadFileData();
     let shipments = await topSecretAlgorithm(getFileData());
-    let optimalRoutes = determineOptimalRoutes(shipments);
+    let optimalRoutesObject = determineOptimalRoutes(shipments);
+    displayOptimalRoutes(optimalRoutesObject);
 }
 
 runProgram();

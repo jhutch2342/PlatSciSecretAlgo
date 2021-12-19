@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/jhutch2342/PlatSciSecretAlgo/issues"
   },
-  "homepage": "https://github.com/jhutch2342/PlatSciSecretAlgo#readme"
+  "homepage": "https://github.com/jhutch2342/PlatSciSecretAlgo#readme",
+  "dependencies": {
+    "string-table": "^0.1.5"
+  }
 }
