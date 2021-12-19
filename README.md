@@ -72,6 +72,23 @@ Example contents of "Destination Street File"
 
 -----------------------------------------
 
+## Example run
+
+node app.js
+
+| Route                  | Driver           | Score |
+-----------------------------------------------------
+| 123 Fake Street        | Nancy carmichael |   7.5 |
+| 6492 West place        | Frank john       |  10.5 |
+| 1887 Park ave          | Peggy lu         |   7.5 |
+| 8422 Willingtom way    | Sue Myers        |     5 |
+| 9043 Mark ave          | Bob man          |     4 |
+| 1452 Johnson boulevard | Joe bob          |   4.5 |
+| 1445 Haight Street     | Tom sue          |   4.5 |
+| 1947 Miramar boulevard | Ann lee          |   4.5 |
+
+Route Score 48
+
 ## Advanced Notes
 
 This repository has a UML diagram available in a .dio file extenstion
