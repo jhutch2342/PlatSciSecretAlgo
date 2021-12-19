@@ -53,14 +53,14 @@ async function topSecretAlgorithm(dataObject) {
     let { driverNames, streetNames } = dataObject;
 
     let shipments = [];
+    let driverRouteMatrix = [];
 
     //Iterate over shipment destination streets to build shipment info
     streetNames.map((streetName) => {
         let shipment = {};
         shipment.streetName = streetName;
         shipment.shipmentDrivers = [];
-        let highestShippingScore = 0;
-        let highestShippingScoreDriverName = "";
+        let deliveryArray = [];
 
         driverNames.map((driver) => {
             let shipmentDriver = {};
@@ -84,31 +84,28 @@ async function topSecretAlgorithm(dataObject) {
             ) {
                 shipmentDriver.score *= 1.5;
             }
-            //Check for highest shipment driver score
-            if (shipmentDriver.score > highestShippingScore) {
-                highestShippingScore = shipmentDriver.score;
-                highestShippingScoreDriverName = shipmentDriver.driverName;
-            }
             //Add shipment driver to the shipment
             shipment.shipmentDrivers.push(shipmentDriver);
+            //Add driver score to delivery score array
+            deliveryArray.push(shipmentDriver.score);
         });
-        console.log("Highest shipping score is " + highestShippingScore);
         //Add the shipment to the shipments list
         shipments.push(shipment);
+        //Add the driver score array to the driverRouterMatrix
+        driverRouteMatrix.push(deliveryArray);
     });
-    // console.log("Looking at shipments");
-    let shipmentObject = shipments;
-    console.log(JSON.stringify(shipmentObject));
-    return shipmentObject;
+    //Creating shipment object
+    let shipmentsObject = {};
+    shipmentsObject.shipments = shipments;
+    shipmentsObject.driverRouteMatrix = driverRouteMatrix;
+    console.log("Returning shipments");
+    console.log(JSON.stringify(shipmentsObject));
+    return shipmentsObject;
 }
 
-/*
-Optimizing using a greedy algorithm
-Highest driver score on the route gets priority
-*/
 let determineOptimalRoutes = (shipments) => {
     let optimalRoute = [];
-    // shipments.map((shipment) => {});
+
     return optimalRoute;
 };
 
@@ -116,7 +113,7 @@ let determineOptimalRoutes = (shipments) => {
 async function runProgram() {
     // displayUserPrompt();
     let getFileData = await loadFileData();
-    let shipments = topSecretAlgorithm(getFileData());
+    let shipments = await topSecretAlgorithm(getFileData());
     let optimalRoute = determineOptimalRoutes(shipments);
 }
 
