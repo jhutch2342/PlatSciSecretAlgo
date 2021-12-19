@@ -105,8 +105,51 @@ async function topSecretAlgorithm(dataObject) {
 
 let determineOptimalRoutes = (shipments) => {
     let optimalRoute = [];
-
+    console.log(JSON.stringify(findNextRoute(shipments)));
+    //Iterate over the shipments until all shipments have been processed
+    // while (shipments.length > 0) {
+    //     let shipmentIndex = findNextRoute(shipments);
+    //     //Add route to optimal route and remove from shipments
+    // }
     return optimalRoute;
+};
+
+let findNextRoute = (shipments) => {
+    let deltas = [];
+    console.log("Looking at routes " + shipments.driverRouteMatrix.length);
+    //Determine route with highest potential loss
+    shipments.driverRouteMatrix.map((route) => {
+        //Create a deep clone of the route array
+        let tmpRoute = [].concat(route);
+        //Get route max
+        let max = Math.max.apply(null, tmpRoute);
+        //Remove the value from the array
+        tmpRoute.splice(tmpRoute.indexOf(max), 1);
+        let secondHighest = Math.max.apply(null, tmpRoute);
+        let delta = max - secondHighest;
+        deltas.push(delta);
+    });
+    console.log("Looking at deltas");
+    console.log(deltas);
+    //Route with the highest potential loss
+    let highestDelta = Math.max.apply(null, deltas);
+    //Grab route index of route with highest delta
+    let nextRouteIndex = deltas.indexOf(highestDelta);
+    console.log("Looking at route index " + nextRouteIndex);
+    //Grab max driver score
+    let maxDriverScore = Math.max.apply(
+        null,
+        shipments.driverRouteMatrix[nextRouteIndex]
+    );
+    console.log(maxDriverScore);
+    //Grab the max driver score index
+    let nextDriverIndex =
+        shipments.driverRouteMatrix[nextRouteIndex].indexOf(maxDriverScore);
+    console.log(nextDriverIndex);
+    let nextRoute = {};
+    nextRoute.routeIndex = nextRouteIndex;
+    nextRoute.driverIndex = nextDriverIndex;
+    return nextRoute;
 };
 
 //Main program start
