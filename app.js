@@ -180,6 +180,7 @@ let findNextRoute = (driverMatrix) => {
     if (driverMatrix.length === 1) {
         nextRoute.routeIndex = 0;
         nextRoute.driverIndex = 0;
+        nextRoute.maxDriverScore = driverMatrix[0][0];
         console.log("------------------------------------");
         return nextRoute;
     }
@@ -216,6 +217,7 @@ let findNextRoute = (driverMatrix) => {
     console.log("Driver index " + nextDriverIndex);
     nextRoute.routeIndex = nextRouteIndex;
     nextRoute.driverIndex = nextDriverIndex;
+    nextRoute.maxDriverScore = maxDriverScore;
     console.log("Looking at next route " + JSON.stringify(nextRoute));
     console.log("----------------end--------------------");
     return nextRoute;

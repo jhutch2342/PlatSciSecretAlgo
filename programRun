@@ -72,10 +72,10 @@ Looking at driver matrix
   4.5, 4.5, 3, 7.5
 ]
 Driver index 7
-Looking at next route {"routeIndex":0,"driverIndex":7}
+Looking at next route {"routeIndex":0,"driverIndex":7,"maxDriverScore":7.5}
 ----------------end--------------------
 1.0------------------------------------
-Looking at next route data {"routeIndex":0,"driverIndex":7,"streetName":"123 Fake Street","driverName":"Nancy carmichael"}
+Looking at next route data {"routeIndex":0,"driverIndex":7,"maxDriverScore":7.5,"streetName":"123 Fake Street","driverName":"Nancy carmichael"}
 1.1------------------------------------
 [
   [
@@ -187,10 +187,10 @@ Looking at driver matrix
   3, 5,    5
 ]
 Driver index 2
-Looking at next route {"routeIndex":5,"driverIndex":2}
+Looking at next route {"routeIndex":5,"driverIndex":2,"maxDriverScore":10.5}
 ----------------end--------------------
 1.0------------------------------------
-Looking at next route data {"routeIndex":5,"driverIndex":2,"streetName":"6492 West place","driverName":"Frank john"}
+Looking at next route data {"routeIndex":5,"driverIndex":2,"maxDriverScore":10.5,"streetName":"6492 West place","driverName":"Frank john"}
 1.1------------------------------------
 [
   [
@@ -248,10 +248,10 @@ Max driver score 7.5
 Looking at driver matrix
 [ 3, 3, 4, 3, 5, 7.5 ]
 Driver index 5
-Looking at next route {"routeIndex":1,"driverIndex":5}
+Looking at next route {"routeIndex":1,"driverIndex":5,"maxDriverScore":7.5}
 ----------------end--------------------
 1.0------------------------------------
-Looking at next route data {"routeIndex":1,"driverIndex":5,"streetName":"1887 Park ave","driverName":"Peggy lu"}
+Looking at next route data {"routeIndex":1,"driverIndex":5,"maxDriverScore":7.5,"streetName":"1887 Park ave","driverName":"Peggy lu"}
 1.1------------------------------------
 [
   [ 3, 3, 4, 3, 5, 5 ],
@@ -288,10 +288,10 @@ Max driver score 5
 Looking at driver matrix
 [ 3, 3, 4, 3, 5 ]
 Driver index 4
-Looking at next route {"routeIndex":0,"driverIndex":4}
+Looking at next route {"routeIndex":0,"driverIndex":4,"maxDriverScore":5}
 ----------------end--------------------
 1.0------------------------------------
-Looking at next route data {"routeIndex":0,"driverIndex":4,"streetName":"8422 Willingtom way","driverName":"Sue Myers"}
+Looking at next route data {"routeIndex":0,"driverIndex":4,"maxDriverScore":5,"streetName":"8422 Willingtom way","driverName":"Sue Myers"}
 1.1------------------------------------
 [
   [ 4.5, 4.5, 3, 4.5, 4.5 ],
@@ -325,10 +325,10 @@ Max driver score 4
 Looking at driver matrix
 [ 3, 3, 4, 3 ]
 Driver index 2
-Looking at next route {"routeIndex":3,"driverIndex":2}
+Looking at next route {"routeIndex":3,"driverIndex":2,"maxDriverScore":4}
 ----------------end--------------------
 1.0------------------------------------
-Looking at next route data {"routeIndex":3,"driverIndex":2,"streetName":"9043 Mark ave","driverName":"Bob man"}
+Looking at next route data {"routeIndex":3,"driverIndex":2,"maxDriverScore":4,"streetName":"9043 Mark ave","driverName":"Bob man"}
 1.1------------------------------------
 [ [ 4.5, 4.5, 3, 4.5 ], [ 4.5, 4.5, 3, 4.5 ], [ 4.5, 4.5, 3, 4.5 ] ]
 1.2------------------------------------
@@ -347,10 +347,10 @@ Max driver score 4.5
 Looking at driver matrix
 [ 4.5, 4.5, 4.5 ]
 Driver index 0
-Looking at next route {"routeIndex":0,"driverIndex":0}
+Looking at next route {"routeIndex":0,"driverIndex":0,"maxDriverScore":4.5}
 ----------------end--------------------
 1.0------------------------------------
-Looking at next route data {"routeIndex":0,"driverIndex":0,"streetName":"1452 Johnson boulevard","driverName":"Joe bob"}
+Looking at next route data {"routeIndex":0,"driverIndex":0,"maxDriverScore":4.5,"streetName":"1452 Johnson boulevard","driverName":"Joe bob"}
 1.1------------------------------------
 [ [ 4.5, 4.5, 4.5 ], [ 4.5, 4.5, 4.5 ] ]
 1.2------------------------------------
@@ -369,10 +369,10 @@ Max driver score 4.5
 Looking at driver matrix
 [ 4.5, 4.5 ]
 Driver index 0
-Looking at next route {"routeIndex":0,"driverIndex":0}
+Looking at next route {"routeIndex":0,"driverIndex":0,"maxDriverScore":4.5}
 ----------------end--------------------
 1.0------------------------------------
-Looking at next route data {"routeIndex":0,"driverIndex":0,"streetName":"1445 Haight Street","driverName":"Tom sue"}
+Looking at next route data {"routeIndex":0,"driverIndex":0,"maxDriverScore":4.5,"streetName":"1445 Haight Street","driverName":"Tom sue"}
 1.1------------------------------------
 [ [ 4.5, 4.5 ] ]
 1.2------------------------------------
@@ -384,7 +384,7 @@ Entering findNextRoute 1 routes left
 [ [ 4.5 ] ]
 ------------------------------------
 1.0------------------------------------
-Looking at next route data {"routeIndex":0,"driverIndex":0,"streetName":"1947 Miramar boulevard","driverName":"Ann lee"}
+Looking at next route data {"routeIndex":0,"driverIndex":0,"maxDriverScore":4.5,"streetName":"1947 Miramar boulevard","driverName":"Ann lee"}
 1.1------------------------------------
 []
 1.2------------------------------------
@@ -393,12 +393,44 @@ Looking at next route data {"routeIndex":0,"driverIndex":0,"streetName":"1947 Mi
 []
 Looking at optimal routes
 [
-  { streetName: '123 Fake Street', driverName: 'Nancy carmichael' },
-  { streetName: '6492 West place', driverName: 'Frank john' },
-  { streetName: '1887 Park ave', driverName: 'Peggy lu' },
-  { streetName: '8422 Willingtom way', driverName: 'Sue Myers' },
-  { streetName: '9043 Mark ave', driverName: 'Bob man' },
-  { streetName: '1452 Johnson boulevard', driverName: 'Joe bob' },
-  { streetName: '1445 Haight Street', driverName: 'Tom sue' },
-  { streetName: '1947 Miramar boulevard', driverName: 'Ann lee' }
+  {
+    maxDriverScore: 7.5,
+    streetName: '123 Fake Street',
+    driverName: 'Nancy carmichael'
+  },
+  {
+    maxDriverScore: 10.5,
+    streetName: '6492 West place',
+    driverName: 'Frank john'
+  },
+  {
+    maxDriverScore: 7.5,
+    streetName: '1887 Park ave',
+    driverName: 'Peggy lu'
+  },
+  {
+    maxDriverScore: 5,
+    streetName: '8422 Willingtom way',
+    driverName: 'Sue Myers'
+  },
+  {
+    maxDriverScore: 4,
+    streetName: '9043 Mark ave',
+    driverName: 'Bob man'
+  },
+  {
+    maxDriverScore: 4.5,
+    streetName: '1452 Johnson boulevard',
+    driverName: 'Joe bob'
+  },
+  {
+    maxDriverScore: 4.5,
+    streetName: '1445 Haight Street',
+    driverName: 'Tom sue'
+  },
+  {
+    maxDriverScore: 4.5,
+    streetName: '1947 Miramar boulevard',
+    driverName: 'Ann lee'
+  }
 ]
