@@ -160,8 +160,11 @@ let determineOptimalRoutes = (shipmentsObject) => {
         //Remove the route and driver index. They are meaningless once the array updates
         delete nextRoute["driverIndex"];
         delete nextRoute["routeIndex"];
-        //Add route to optimal routes
-        optimalRoutes.push(nextRoute);
+        //Handle the edge case of more routes than drivers
+        if (nextRoute.driverName !== undefined) {
+            //Add route to optimal routes
+            optimalRoutes.push(nextRoute);
+        }
     }
     console.log("Looking at optimal routes");
     console.log(optimalRoutes);
