@@ -28,22 +28,16 @@ Example contents of "Driver Data File"
 
 -----------------------------------------
 
+<pre>
 Joe bob
-
 Tom sue
-
 Frank john
-
 Bob man
-
 Ann lee
-
 Sue Myers
-
 Peggy lu
-
 Nancy carmichael
-
+</pre>
 -----------------------------------------
 
 **Destination Street File**
@@ -53,29 +47,23 @@ This file contains a list of all route destination street names
 Example contents of "Destination Street File"
 
 -----------------------------------------
-
+<pre>
 123 Fake Street
-
 8422 Willingtom way
-
 1887 Park ave
-
 1452 Johnson boulevard
-
 1445 Haight Street
-
 1947 Miramar boulevard
-
 6492 West place
-
 9043 Mark ave
-
+</pre>
 -----------------------------------------
 
 ## Example run
 
 node app.js
 
+<pre>
 | Route                  | Driver           | Score |
 -----------------------------------------------------
 | 123 Fake Street        | Nancy carmichael |   7.5 |
@@ -88,7 +76,7 @@ node app.js
 | 1947 Miramar boulevard | Ann lee          |   4.5 |
 
 Route Score 48
-
+</pre>
 ## Advanced Notes
 
 This repository has a UML diagram available in a .dio file extenstion
