@@ -103,22 +103,88 @@ async function topSecretAlgorithm(dataObject) {
     return shipmentsObject;
 }
 
-let determineOptimalRoutes = (shipments) => {
-    let optimalRoute = [];
-    console.log(JSON.stringify(findNextRoute(shipments)));
-    //Iterate over the shipments until all shipments have been processed
-    // while (shipments.length > 0) {
-    //     let shipmentIndex = findNextRoute(shipments);
-    //     //Add route to optimal route and remove from shipments
-    // }
-    return optimalRoute;
+let determineOptimalRoutes = (shipmentsObject) => {
+    let optimalRoutes = [];
+    let drivers = [];
+    let shipmentRoutes = [];
+    //Make a deep copy of the driver matrix
+    let driverRouteMatrix = [].concat(shipmentsObject.driverRouteMatrix);
+
+    //Load drivers into drivers array
+    shipmentsObject.shipments[0].shipmentDrivers.map((driver) => {
+        drivers.push(driver.driverName);
+    });
+
+    //Load routes into routes array
+    shipmentsObject.shipments.map((routes) => {
+        shipmentRoutes.push(routes.streetName);
+    });
+
+    console.log("Drivers");
+    console.log(drivers);
+    console.log(shipmentRoutes);
+
+    // Iterate over all routes until there is only one route left
+    while (driverRouteMatrix.length > 0) {
+        //Compute and store next optimal route
+        let nextRoute = findNextRoute(driverRouteMatrix);
+        //Get the route's street
+        nextRoute.streetName = shipmentRoutes[nextRoute.routeIndex];
+
+        //Get the driver name
+        nextRoute.driverName = drivers[nextRoute.driverIndex];
+        console.log("1.0------------------------------------");
+        console.log("Looking at next route data " + JSON.stringify(nextRoute));
+        //Remove route from driver route matrix
+        driverRouteMatrix.splice(nextRoute.routeIndex, 1);
+        console.log("1.1------------------------------------");
+        console.log(driverRouteMatrix);
+        //Remove driver from other routes
+        console.log("1.2------------------------------------");
+        console.log(nextRoute.driverIndex);
+        for (
+            var routeIndex = 0;
+            routeIndex < driverRouteMatrix.length;
+            routeIndex++
+        ) {
+            driverRouteMatrix[routeIndex].splice(nextRoute.driverIndex, 1);
+        }
+        console.log("1.3------------------------------------");
+        console.log(driverRouteMatrix);
+
+        //Remove route from shipment routes
+        shipmentRoutes.splice(nextRoute.routeIndex, 1);
+        //Remove driver from drivers
+        drivers.splice(nextRoute.driverIndex, 1);
+
+        //Remove the route and driver index. They are meaningless once the array updates
+        delete nextRoute["driverIndex"];
+        delete nextRoute["routeIndex"];
+        //Add route to optimal routes
+        optimalRoutes.push(nextRoute);
+    }
+    console.log("Looking at optimal routes");
+    console.log(optimalRoutes);
+    return optimalRoutes;
 };
 
-let findNextRoute = (shipments) => {
+let findNextRoute = (driverMatrix) => {
     let deltas = [];
-    console.log("Looking at routes " + shipments.driverRouteMatrix.length);
+    console.log("0----------------start--------------------");
+    console.log(
+        "Entering findNextRoute " + driverMatrix.length + " routes left"
+    );
+    console.log(driverMatrix);
+    let nextRoute = {};
+    //Only 1 route left. No need to compare for efficiency
+    if (driverMatrix.length === 1) {
+        nextRoute.routeIndex = 0;
+        nextRoute.driverIndex = 0;
+        console.log("------------------------------------");
+        return nextRoute;
+    }
     //Determine route with highest potential loss
-    shipments.driverRouteMatrix.map((route) => {
+    driverMatrix.map((route) => {
         //Create a deep clone of the route array
         let tmpRoute = [].concat(route);
         //Get route max
@@ -126,29 +192,32 @@ let findNextRoute = (shipments) => {
         //Remove the value from the array
         tmpRoute.splice(tmpRoute.indexOf(max), 1);
         let secondHighest = Math.max.apply(null, tmpRoute);
+        //Compute loss delta
         let delta = max - secondHighest;
+        //Store route deltas for comparison
         deltas.push(delta);
     });
+    console.log("1------------------------------------");
     console.log("Looking at deltas");
     console.log(deltas);
     //Route with the highest potential loss
     let highestDelta = Math.max.apply(null, deltas);
-    //Grab route index of route with highest delta
+    //Grab route index of route with highest potential loss
     let nextRouteIndex = deltas.indexOf(highestDelta);
     console.log("Looking at route index " + nextRouteIndex);
-    //Grab max driver score
-    let maxDriverScore = Math.max.apply(
-        null,
-        shipments.driverRouteMatrix[nextRouteIndex]
-    );
-    console.log(maxDriverScore);
+    console.log("2------------------------------------");
+    //Grab max driver score for that route
+    let maxDriverScore = Math.max.apply(null, driverMatrix[nextRouteIndex]);
+    console.log("Max driver score " + maxDriverScore);
     //Grab the max driver score index
-    let nextDriverIndex =
-        shipments.driverRouteMatrix[nextRouteIndex].indexOf(maxDriverScore);
-    console.log(nextDriverIndex);
-    let nextRoute = {};
+    console.log("Looking at driver matrix");
+    console.log(driverMatrix[nextRouteIndex]);
+    let nextDriverIndex = driverMatrix[nextRouteIndex].indexOf(maxDriverScore);
+    console.log("Driver index " + nextDriverIndex);
     nextRoute.routeIndex = nextRouteIndex;
     nextRoute.driverIndex = nextDriverIndex;
+    console.log("Looking at next route " + JSON.stringify(nextRoute));
+    console.log("----------------end--------------------");
     return nextRoute;
 };
 
@@ -157,7 +226,7 @@ async function runProgram() {
     // displayUserPrompt();
     let getFileData = await loadFileData();
     let shipments = await topSecretAlgorithm(getFileData());
-    let optimalRoute = determineOptimalRoutes(shipments);
+    let optimalRoutes = determineOptimalRoutes(shipments);
 }
 
 runProgram();
