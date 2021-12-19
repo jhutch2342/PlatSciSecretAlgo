@@ -2,6 +2,10 @@
 
 This application is used to determine the optimal pairing of drivers with routes as defined by the proprietary algorithm specified. The driver and destination address data sets are both provided in the form of a newline seperated text file (2 in total) which are located in the project directory.
 
+This application accomodates for data sets in which there is a mismatch between the number of drivers and the number of routes
+
+**For technical review it is strongly advised that the "Interview Notes" section below is referenced**
+
 ## Requirements
 
 A NodeJS version of 14.x.x is recommended for this application
@@ -82,3 +86,34 @@ Route Score 48
 This repository has a UML diagram available in a .dio file extenstion
 
 This can be accessed in Visual Studio code through the use of the Draw.io extension
+
+## Interview notes
+**Closure**
+
+There is a demonstration of a closure in the loadFileData function in app.js
+
+<pre>
+let loadFileData = async () => {
+    //Load Street and Driver data from system files
+    let driverNames = await readFile("./Driver Data File");
+    let streetNames = await readFile("./Destination Street File");
+    return () => {
+        let dataObject = {
+            driverNames: driverNames,
+            streetNames: streetNames,
+        };
+        return dataObject;
+    };
+};
+</pre>
+
+**Regular Expressions**
+
+There is a demonstration of regular expressions in the topSecretAlgorithm function in app.js
+
+<pre>
+shipmentDriver.score = 
+  shipment.streetName.match(/[a-z]/gi).length % 2 == 0 ? 
+    1.5 * driver.match(/[aeiou]/gi).length
+    : 1 * driver.match(/[bcdfghjklmnpqrstvwxyz]/gi).length;
+</pre>
