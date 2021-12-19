@@ -7,7 +7,7 @@ let displayUserPrompt = () => {
         "To use this platform you will need to have two files both of which will need to be in the same folder as this application"
     );
     console.log(
-        'The first file is a file named "Driver Name File"  (File name is case sensitive) that will need to contain the drivers names'
+        'The first file is a file named "Driver Data File"  (File name is case sensitive) that will need to contain the drivers names'
     );
     console.log(
         'The second file is a file named "Desination Street File"  (File name is case sensitive) that will need to contain the street address of the shipment destinations\n'
@@ -246,7 +246,7 @@ let findNextRoute = (driverMatrix) => {
 
 //Main program start
 async function runProgram() {
-    // displayUserPrompt();
+    displayUserPrompt();
     let getFileData = await loadFileData();
     let shipments = await topSecretAlgorithm(getFileData());
     let optimalRoutesObject = determineOptimalRoutes(shipments);
