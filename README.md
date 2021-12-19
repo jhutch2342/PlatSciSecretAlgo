@@ -60,6 +60,7 @@ Example contents of "Destination Street File"
 1947 Miramar boulevard
 6492 West place
 9043 Mark ave
+8181 Not going to work street
 </pre>
 -----------------------------------------
 
