@@ -23,8 +23,16 @@ let displayOptimalRoutes = (optimalRoutesObject) => {
             headers: ["Route", "Driver", "Score"],
         })
     );
+
+    console.log("\nRoute Score " + optimalRoutesObject.routesScore + "\n");
     //Warn user about routes with no driver present
     if (optimalRoutesObject.routesWithNoDriver.length > 0) {
+        console.log(
+            "--------------WARNING ROUTES WITHOUT DRIVER--------------"
+        );
+        optimalRoutesObject.routesWithNoDriver.map((route) => {
+            console.log(route.Route);
+        });
     }
 };
 
