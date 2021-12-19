@@ -81,6 +81,9 @@ node app.js
 | 1947 Miramar boulevard | Ann lee          |   4.5 |
 
 Route Score 48
+
+--------------WARNING ROUTES WITHOUT DRIVER--------------
+8181 Not going to work street
 </pre>
 ## Advanced Notes
 
