@@ -37,12 +37,15 @@ let displayOptimalRoutes = (optimalRoutesObject) => {
 //Load and save data from file
 let loadFileData = async () => {
     //Load Street and Driver data from system files
-    let driverNames = await readFile("./Driver Data File");
-    let streetNames = await readFile("./Destination Street File");
+    let driverNames = readFile("./Driver Data File");
+    let streetNames = readFile("./Destination Street File");
+
+    const allFiles = await Promise.all([driverNames, streetNames]);
+
     return () => {
         let dataObject = {
-            driverNames: driverNames,
-            streetNames: streetNames,
+            driverNames: allFiles[0],
+            streetNames: allFiles[1],
         };
         return dataObject;
     };
