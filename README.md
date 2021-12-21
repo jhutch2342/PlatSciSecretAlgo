@@ -126,3 +126,25 @@ shipmentDriver.score =
     1.5 * driver.match(/[aeiou]/gi).length
     : 1 * driver.match(/[bcdfghjklmnpqrstvwxyz]/gi).length;
 </pre>
+
+**Optimization**
+
+There is a demonstration of data processing optimization in the loadFileData function in app.js
+<pre>
+//Load and save data from file
+let loadFileData = async () => {
+    //Load Street and Driver data from system files
+    let driverNames = readFile("./Driver Data File");
+    let streetNames = readFile("./Destination Street File");
+
+    const allFiles = await Promise.all([driverNames, streetNames]);
+
+    return () => {
+        let dataObject = {
+            driverNames: allFiles[0],
+            streetNames: allFiles[1],
+        };
+        return dataObject;
+    };
+};
+</pre>
